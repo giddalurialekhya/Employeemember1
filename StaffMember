@@ -1,0 +1,147 @@
+ import java.util.Scanner;
+import java.util.HashMap;
+
+class StaffDetails {
+    private int staffCode;
+    private String fullName;
+    private float salary;
+
+    StaffDetails(int staffCode, String fullName, float salary) {
+        this.staffCode = staffCode;
+        this.fullName = fullName;
+        this.salary = salary;
+    }
+
+    int getStaffCode() {
+        return staffCode;
+    }
+
+    String getFullName() {
+        return fullName;
+    }
+
+    float getSalary() {
+        return salary;
+    }
+
+    void updateFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    void updateSalary(float salary) {
+        this.salary = salary;
+    }
+
+    @Override
+    public String toString() {
+        return staffCode + "\t" + fullName + "\t" + salary;
+    }
+}
+
+public class StaffManager {
+    public static void main(String[] args) {
+        HashMap<Integer, StaffDetails> staffDirectory = new HashMap<>();
+        Scanner scanner = new Scanner(System.in);
+
+        StaffDetails s1 = new StaffDetails(2001, "Alekhya", 120000.0f);
+        StaffDetails s2 = new StaffDetails(2002, "Manjula", 150000.0f);
+        StaffDetails s3 = new StaffDetails(2003, "Adarsh", 130000.0f);
+        StaffDetails s4 = new StaffDetails(2004, "Bhargavi", 150000.0f);
+        StaffDetails s5 = new StaffDetails(2005, "Arjun", 120000.0f);
+        StaffDetails s6 = new StaffDetails(2006, "Swathi", 130000.0f);
+        StaffDetails s7 = new StaffDetails(2007, "Azeem", 140000.0f);
+
+        staffDirectory.put(s1.getStaffCode(), s1);
+        staffDirectory.put(s2.getStaffCode(), s2);
+        staffDirectory.put(s3.getStaffCode(), s3);
+        staffDirectory.put(s4.getStaffCode(), s4);
+        staffDirectory.put(s5.getStaffCode(), s5);
+        staffDirectory.put(s6.getStaffCode(), s6);
+        staffDirectory.put(s7.getStaffCode(), s7);
+
+        int option = 0;
+        while (option != 7) {
+            System.out.println("Enter your option:\n1.Add\n2.View\n3.Modify\n4.Remove\n5.List All\n6.Search\n7.Exit");
+            option = scanner.nextInt();
+            switch (option) {
+                case 1 -> {
+                    System.out.println("Enter Staff ID:");
+                    int id = scanner.nextInt();
+                    scanner.nextLine();
+                    if (staffDirectory.containsKey(id)) {
+                        System.out.println("Staff ID already exists. Please use a different number.");
+                        break;
+                    }
+                    System.out.println("Enter Full Name:");
+                    String name = scanner.nextLine();
+                    System.out.println("Enter Salary:");
+                    float salary = scanner.nextFloat();
+                    StaffDetails staff = new StaffDetails(id, name, salary);
+                    staffDirectory.put(staff.getStaffCode(), staff);
+                    System.out.println("Staff Added Successfully");
+                }
+                case 2 -> {
+                    System.out.println("Enter Staff ID to View:");
+                    int id = scanner.nextInt();
+                    if (staffDirectory.containsKey(id)) {
+                        System.out.println("ID\tName\tSalary");
+                        System.out.println("-----------------------------------");
+                        System.out.println(staffDirectory.get(id));
+                    } else {
+                        System.out.println("Staff ID not found");
+                    }
+                }
+                case 3 -> {
+                    System.out.println("Enter Staff ID to Modify:");
+                    int id = scanner.nextInt();
+                    scanner.nextLine();
+                    if (staffDirectory.containsKey(id)) {
+                        StaffDetails staff = staffDirectory.get(id);
+                        System.out.println("Enter New Name:");
+                        String name = scanner.nextLine();
+                        staff.updateFullName(name);
+                        System.out.println("Enter New Salary:");
+                        float salary = scanner.nextFloat();
+                        staff.updateSalary(salary);
+                        System.out.println("Staff Details Updated");
+                    } else {
+                        System.out.println("Staff ID not found");
+                    }
+                }
+                case 4 -> {
+                    System.out.println("Enter Staff ID to Remove:");
+                    int id = scanner.nextInt();
+                    if (staffDirectory.containsKey(id)) {
+                        staffDirectory.remove(id);
+                        System.out.println("Staff Removed Successfully");
+                    } else {
+                        System.out.println("Staff ID not found");
+                    }
+                }
+                case 5 -> {
+                    System.out.println("Staff Details:");
+                    System.out.println("ID\tName\tSalary");
+                    System.out.println("-----------------------------------");
+                    for (StaffDetails staff : staffDirectory.values()) {
+                        System.out.println(staff);
+                    }
+                }
+                case 6 -> {
+                    System.out.println("Enter Staff ID to Search:");
+                    int id = scanner.nextInt();
+                    if (staffDirectory.containsKey(id)) {
+                        System.out.println("ID\tName\tSalary");
+                        System.out.println("-----------------------------------");
+                        System.out.println(staffDirectory.get(id));
+                    } else {
+                        System.out.println("Staff ID not found");
+                    }
+                }
+                case 7 -> System.out.println("Exiting...");
+                default -> System.out.println("Invalid Option");
+            }
+        }
+
+        System.out.println("Thank you for using the Staff Management System.");
+    }
+}
